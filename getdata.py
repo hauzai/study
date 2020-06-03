@@ -4,17 +4,17 @@ import os
 list_keys = []
 filenames = {}
 
-def get_filenames():
+def get_filenames(path='data'):
     """
     获取data文件夹下所有文件
     :return:返回全局变量filenames字典，键为文件名，值为path
     """
     global filenames
-    for root, dirs, files in os.walk('data'):
+    for root, dirs, files in os.walk(path):
         for name in files:
             # print(root+"/"+name)
             filenames[name] = root+"/"+name
-    print(filenames)
+    #print(filenames)
 
 
 def get_sheetnames(filepath):
@@ -24,7 +24,7 @@ def get_sheetnames(filepath):
     :return: 返回sheet名称组成的列表
     """
     data = xlrd.open_workbook(filepath)
-    print(data.sheet_names())
+    #print(data.sheet_names())
     return data.sheet_names()
 
 
@@ -62,8 +62,20 @@ def get_datasdict(list_value):
     return {i[0]: dict(zip(list_keys, i)) for i in list_value}
 
 
+def get_datadict(filename, sheetname, apiname, path='data'):
+    get_filenames(path)
+    apidicts = get_datasdict(get_datas(sheetname, filename))
+    try:
+        return apiname, apidicts[apiname]
+    except Exception:
+        print("apiname错误")
+        return ()
+
+
 if __name__ == '__main__':
-    get_filenames()
-    print(get_sheetnames(r'C:\Users\Administrator\Desktop\test-read.xlsx'))
-    print(get_datasdict(get_datas("沈阳6C")))
-    print(filenames)
+    # get_filenames()
+    # print(get_sheetnames(r'C:\Users\Administrator\Desktop\test-read.xlsx'))
+    # print(get_datasdict(get_datas("沈阳6C")))
+    # print(filenames)
+    print(get_datadict('常用接口文档.xlsx', '沈阳6C', '历史缺陷'))
+    print(get_datadict('常用接口文档.xlsx', '沈阳6C', 'hello'))
