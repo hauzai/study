@@ -28,12 +28,12 @@ def get_sheetnames(filepath):
     return data.sheet_names()
 
 
-def get_interfaces(sheetname, filename="常用接口文档.xlsx"):
+def get_datas(sheetname, filename="常用接口文档.xlsx"):
     """
-    从数据表中获取所有api
+    从数据表中获取所有数据
     :param sheetname: 数据表名称
     :param filename: excel文件名称
-    :return: 返回所有api组成的list
+    :return: 返回所有数据组成的list
     """
     data = xlrd.open_workbook(filenames[filename])
     table = data.sheet_by_name(sheetname)
@@ -48,10 +48,10 @@ def get_interfaces(sheetname, filename="常用接口文档.xlsx"):
         return []
 
 
-def get_interfacesdict(list_value):
+def get_datasdict(list_value):
     """
-    传入list_value即api数据，结合表头list_keys,将api组装为dict
-    :param list_value:从excel中解析到的api列表
+    传入list_value即数据，结合表头list_keys,将数据列表组装为dict
+    :param list_value:从excel中解析到的数据列表
     :return:返回以描述为键，api字典为值的字典
     """
     global list_keys
@@ -65,5 +65,5 @@ def get_interfacesdict(list_value):
 if __name__ == '__main__':
     get_filenames()
     print(get_sheetnames(r'C:\Users\Administrator\Desktop\test-read.xlsx'))
-    print(get_interfacesdict(get_interfaces("沈阳6C")))
+    print(get_datasdict(get_datas("沈阳6C")))
     print(filenames)

@@ -10,12 +10,12 @@ class Requestdata:
             self.filename = input("输入api文件名称\n")
             self.sheetnames = getdata.get_sheetnames(getdata.filenames[self.filename])
             self.sheetname = input("请输入sheetname\n")
-            self.apidicts = getdata.get_interfacesdict(getdata.get_interfaces(self.sheetname, self.filename))
+            self.apidicts = getdata.get_datasdict(getdata.get_datas(self.sheetname, self.filename))
         else:
             self.filename = filename
             self.sheetnames = getdata.get_sheetnames(getdata.filenames[self.filename])
             self.sheetname = sheetname
-            self.apidicts = getdata.get_interfacesdict(getdata.get_interfaces(self.sheetname, self.filename))
+            self.apidicts = getdata.get_datasdict(getdata.get_datas(self.sheetname, self.filename))
 
     def __str__(self):
         return "文件名："+self.filename+"\nsheet名："+self.sheetname+"\napi字典："+str(self.apidicts)
