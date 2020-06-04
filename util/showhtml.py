@@ -1,4 +1,6 @@
 import prettytable
+import os
+current_path = os.path.dirname(__file__)
 
 
 class Showhtml:
@@ -28,7 +30,7 @@ class Showhtml:
         """
         if table:
             html_str = table.get_html_string()
-            with open('htmlpage/'+self.htmlfilename+'.html', 'w') as f:
+            with open('D:\study\htmlpage\\'+self.htmlfilename+'.html', 'w') as f:
                 f.write(""""
                         <html>
                             <head>

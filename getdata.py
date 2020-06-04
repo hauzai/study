@@ -3,8 +3,10 @@ import os
 #list_keys = ["描述", "url", "方法", "入参", "出参格式"]
 list_keys = []
 filenames = {}
-
-def get_filenames(path='data'):
+# current_path为项目真实路径，防止其他模块调用时出现路径错误
+current_path = os.path.dirname(__file__)
+path = os.path.join(current_path, 'data')
+def get_filenames(path=path):
     """
     获取data文件夹下所有文件
     :return:返回全局变量filenames字典，键为文件名，值为path
@@ -62,7 +64,7 @@ def get_datasdict(list_value):
     return {i[0]: dict(zip(list_keys, i)) for i in list_value}
 
 
-def get_datadict(filename, sheetname, apiname, path='data'):
+def get_datadict(filename, sheetname, apiname, path=path):
     get_filenames(path)
     apidicts = get_datasdict(get_datas(sheetname, filename))
     try:
@@ -73,9 +75,11 @@ def get_datadict(filename, sheetname, apiname, path='data'):
 
 
 if __name__ == '__main__':
-    # get_filenames()
+    get_filenames()
     # print(get_sheetnames(r'C:\Users\Administrator\Desktop\test-read.xlsx'))
     # print(get_datasdict(get_datas("沈阳6C")))
-    # print(filenames)
+    # print(path)
+    print(filenames)
     print(get_datadict('常用接口文档.xlsx', '沈阳6C', '历史缺陷'))
-    print(get_datadict('常用接口文档.xlsx', '沈阳6C', 'hello'))
+    print(get_sheetnames('D:/study\\data/常用接口文档.xlsx'))
+    # print(get_datadict('常用接口文档.xlsx', '沈阳6C', 'hello'))

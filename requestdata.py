@@ -8,12 +8,12 @@ class Requestdata:
         self.filenames = getdata.filenames
         if not (filename and sheetname):
             self.filename = input("输入api文件名称\n")
-            self.sheetnames = getdata.get_sheetnames(getdata.filenames[self.filename])
+            self.sheetnames = getdata.get_sheetnames(self.filenames[self.filename])
             self.sheetname = input("请输入sheetname\n")
             self.apidicts = getdata.get_datasdict(getdata.get_datas(self.sheetname, self.filename))
         else:
             self.filename = filename
-            self.sheetnames = getdata.get_sheetnames(getdata.filenames[self.filename])
+            self.sheetnames = getdata.get_sheetnames(self.filenames[self.filename])
             self.sheetname = sheetname
             self.apidicts = getdata.get_datasdict(getdata.get_datas(self.sheetname, self.filename))
 
