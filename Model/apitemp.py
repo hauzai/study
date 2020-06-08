@@ -3,13 +3,16 @@ import handledata
 from util import getdata
 class Apitemp:
     def __init__(self, apidata: getdata.Getdata):
+        # getdata对象传入的data数据
         self.data = apidata.data
-
+        # __apidata data数据的值
         self.__api_data = {}
+        # api_id data数据的键 也作为 request_data的键
         self.api_id = ""
         self.handle_data()
-
+        # 用于请求的字典数据
         self.request_data = {}
+        # 用于转换request_data中数据的键和__api_data中数据的键
         self.__temp = {'method': '方法', 'headers': 'headers', 'params': '入参', 'url': 'api'}
 
     def handle_data(self):
@@ -32,17 +35,13 @@ class Apitemp:
             self.request_data[i] = self.__api_data[self.__temp[i]]
 
     def get_apitemp(self):
-        return {self.api_id:self.request_data}
+        return {self.api_id: self.request_data}
 
 
 
 if __name__ == '__main__':
     test1 = getdata.Getdata(filename="常用接口文档.xlsx", sheetname="安全保障app", id="togest-001")
     test = Apitemp(test1)
-    test.handle_data()
     test.set_request_data()
-    print(test)
-    print(test.request_data)
+    test.update_request_data(token="test")
     print(test.get_apitemp())
-    test.update_request_data(headers={"token": "2100000000000000"})
-    print(test.request_data)
