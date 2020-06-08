@@ -1,25 +1,27 @@
-import requestdata
-from util import showhtml
-import sys
-# sys.path.append(r"D:\studay")
-import getdata
-test = requestdata.Requestdata(filename="常用接口文档.xlsx", sheetname="安全保障app")
-print(test.filenames)
-apidict = test.handle_apidict("数据更新")
-print(apidict)
-params = [('com.togest.railwayjob', ''), ('com.togest.railwayjob', 2), ('test', ''), ('test', 0.1)]
-for i in range(len(params)):
-    apidicend_copy = apidict[-1].copy()
-    param = apidicend_copy["params"]
-    new_params = dict(zip(param.keys(), list(params[i])))
-    # print(new_params)
-    for key,val in new_params.copy().items():
-        if not val:
-            new_params.pop(key)
-    apidicend_copy["params"] = new_params
-    print(apidicend_copy)
-    apidictcopy=(apidict[0],apidicend_copy)
-    res = test.simple_request(apidictcopy)
-    #print(res)
-    print(res)
+import xlrd
+
+if __name__ == '__main__':
+    workbook = xlrd.open_workbook(r'..\data\常用接口文档.xlsx')
+    table = workbook.sheet_by_name('Sheet2')
+    print(table.nrows)
+
+    merged_cell_dict = {}
+    for i in table.merged_cells:
+        value = table.cell_value(i[0], i[2])
+        for rows in range(i[0], i[1]):
+            for cols in range(i[2], i[3]):
+                merged_cell_dict.update({(rows, cols): value})
+
+    print(merged_cell_dict)
+
+    for i in range(1, table.nrows):
+        data = table.row_values(i)
+        for cols in range(len(data)):
+            if (i, cols) in merged_cell_dict.keys():
+                data[cols] = merged_cell_dict[(i, cols)]
+        print(data)
+    print(table.merged_cells)
+
+    print(list(range(1,4)))
+    # print(table.cell_value(1, 0))
 

@@ -53,20 +53,45 @@ class Getdata:
         获取数据表中数据，此处以id为键，行内所有数据字典为值
         :return:
         """
+        merged_cells = self.__get_mergeddict()
         if self.__table.nrows > 1:
             data_key = self.__table.row_values(0)
-            for i in range(1, self.__table.nrows):
-                data_temp = dict(zip(data_key, self.__table.row_values(i)))
+            for row in range(1, self.__table.nrows):
+                data = self.__table.row_values(row).copy()
+                for col in range(len(data)):
+                    if (row, col) in merged_cells.keys():
+                        data[col] = merged_cells[(row, col)]
+                data_temp = dict(zip(data_key, data))
                 dict_key = data_temp['id']
                 self.datas[dict_key] = data_temp
                 self.__ids.append(dict_key)
         # print(self.datas)
         # pass
 
-    def getdata(self,id=""):
-        # TODO:获取某特定的data
+    def getdata(self, id=""):
+        # TODO:根据data的键获取某特定的data
         if id:
             return {id: self.datas[id]}
+
+    def __getdatasbyid(self, keyname, value_keyname):
+        """
+        通过给定的keyname及value对数据进行筛选并返回
+        :param keyname:
+        :param value_keyname:
+        :return:
+        """
+        data = {}
+        for i in self.datas:
+            for x in self.datas[i]:
+                if keyname == x and self.datas[i][x] == value_keyname:
+                    data.update({i: self.datas[i]})
+        return data
+
+    # def get_datasbyvalue(self, **kwargs):
+    #     datas = []
+    #     for keyname, value_keyname in kwargs:
+    #         datas.append(self.__getdatasbyid(keyname, value_keyname))
+    #     print(datas[-1])
 
     def getdatas(self):
         return self.datas
@@ -102,14 +127,31 @@ class Getdata:
         """
         self.__table = self.__workbook.sheet_by_name(self.sheetname)
 
+    def __get_mergeddict(self):
+        """
+        获取表格中合并单元格，并组合为{(row,col):value}的形式，其中(row,col)为合并的单元格坐标,value为应填入的值
+        :return:
+        """
+        merged_cell_dict = {}
+        for i in self.__table.merged_cells:
+            value = self.__table.cell_value(i[0], i[2])
+            for rows in range(i[0], i[1]):
+                for cols in range(i[2], i[3]):
+                    merged_cell_dict.update({(rows, cols): value})
+        return merged_cell_dict
+
+
     def __str__(self):
         return self.__path+"\n"+str(self.__filenames)+"\n"+str(self.__filepath)+"\n"+str(self.__sheetnames)+"\n"+str(self.__ids)
 
 
 if __name__ == '__main__':
     # print(data_path)
-    test = Getdata(filename="常用接口文档.xlsx", sheetname="安全保障app")
-    test1 = Getdata(filename="常用接口文档.xlsx", sheetname="安全保障app", id="togest-001")
-    print(test1.data)
+    # test = Getdata(filename="常用接口文档.xlsx", sheetname="安全保障app")
+    # test1 = Getdata(filename="常用接口文档.xlsx", sheetname="安全保障app", id="togest-001")
+    # print(test1.data)
     test2 = Getdata(filename="常用接口文档.xlsx", sheetname="test-测试用例")
     print(test2.datas)
+    print(vars(test2))
+    print(test2._Getdata__getdatasbyid('apiId', 'togest-001'))
+    print(test2._Getdata__getdatasbyid('apiId', 'togest-002'))

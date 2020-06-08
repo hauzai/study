@@ -1,4 +1,4 @@
-import handledata
+# import handledata
 
 from util import getdata
 class Apitemp:
@@ -43,5 +43,5 @@ if __name__ == '__main__':
     test1 = getdata.Getdata(filename="常用接口文档.xlsx", sheetname="安全保障app", id="togest-001")
     test = Apitemp(test1)
     test.set_request_data()
-    test.update_request_data(token="test")
+    test.update_request_data(headers = {"token":"test"})
     print(test.get_apitemp())
