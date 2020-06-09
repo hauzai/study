@@ -45,7 +45,7 @@ class Getdata:
 
         # 如果创建对象时传入了id则直接获取data
         if self.id:
-            self.data = self.getdata(self.id)
+            self.data = self.get_data(self.id)
 
     def __getdatas(self):
         # TODO:处理文档中数据，原样输出
@@ -68,12 +68,12 @@ class Getdata:
         # print(self.datas)
         # pass
 
-    def getdata(self, id=""):
+    def get_data(self, id=""):
         # TODO:根据data的键获取某特定的data
         if id:
             return {id: self.datas[id]}
 
-    def __getdatasbyid(self, keyname, value_keyname):
+    def get_datas_by_kv(self, keyname, value_keyname):
         """
         通过给定的keyname及value对数据进行筛选并返回
         :param keyname:
@@ -153,5 +153,5 @@ if __name__ == '__main__':
     test2 = Getdata(filename="常用接口文档.xlsx", sheetname="test-测试用例")
     print(test2.datas)
     print(vars(test2))
-    print(test2._Getdata__getdatasbyid('apiId', 'togest-001'))
-    print(test2._Getdata__getdatasbyid('apiId', 'togest-002'))
+    print(test2.get_datas_by_kv('apiId', 'togest-001'))
+    print(test2.get_datas_by_kv('apiId', 'togest-002'))
